@@ -14,7 +14,6 @@ namespace PasswordGenerator
     public partial class PasswordGen : Form
     {
         int Length = 15;
-        string[] password;
         bool Caps = false;
         bool Lower = false;
         bool Numbers = false;
@@ -51,9 +50,6 @@ namespace PasswordGenerator
             {
                 GeneratePassword(Caps, Lower, Numbers, Symbols);
             }
-
-            
-
         }
 
 
@@ -109,8 +105,6 @@ namespace PasswordGenerator
                     Password[i] = NumberChars[r.Next(NumberChars.Length)].ToString();
                     Console.WriteLine("Number");
                 }
-              
-                
             }
 
             string OutputPassword = "";
