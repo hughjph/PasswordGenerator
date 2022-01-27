@@ -35,10 +35,11 @@ namespace PasswordGenerator
             this.symbolsCheck = new System.Windows.Forms.CheckBox();
             this.lowerCheck = new System.Windows.Forms.CheckBox();
             this.lengthSelector = new System.Windows.Forms.TrackBar();
-            this.label3 = new System.Windows.Forms.Label();
+            this.SelectorTitle = new System.Windows.Forms.Label();
             this.LengthText = new System.Windows.Forms.TextBox();
             this.GenButton = new System.Windows.Forms.Button();
             this.output = new System.Windows.Forms.TextBox();
+            this.readableCheck = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.lengthSelector)).BeginInit();
             this.SuspendLayout();
             // 
@@ -98,29 +99,29 @@ namespace PasswordGenerator
             // 
             // lengthSelector
             // 
-            this.lengthSelector.Location = new System.Drawing.Point(125, 271);
+            this.lengthSelector.Location = new System.Drawing.Point(125, 317);
             this.lengthSelector.Maximum = 30;
-            this.lengthSelector.Minimum = 8;
+            this.lengthSelector.Minimum = 1;
             this.lengthSelector.Name = "lengthSelector";
             this.lengthSelector.Size = new System.Drawing.Size(277, 45);
             this.lengthSelector.TabIndex = 6;
             this.lengthSelector.Value = 15;
             this.lengthSelector.Scroll += new System.EventHandler(this.lengthSelector_Scroll);
             // 
-            // label3
+            // SelectorTitle
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft YaHei", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(120, 243);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(82, 28);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Length";
+            this.SelectorTitle.AutoSize = true;
+            this.SelectorTitle.Font = new System.Drawing.Font("Microsoft YaHei", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SelectorTitle.Location = new System.Drawing.Point(120, 273);
+            this.SelectorTitle.Name = "SelectorTitle";
+            this.SelectorTitle.Size = new System.Drawing.Size(199, 28);
+            this.SelectorTitle.TabIndex = 8;
+            this.SelectorTitle.Text = "Character Number";
             // 
             // LengthText
             // 
             this.LengthText.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LengthText.Location = new System.Drawing.Point(321, 242);
+            this.LengthText.Location = new System.Drawing.Point(321, 273);
             this.LengthText.Name = "LengthText";
             this.LengthText.ReadOnly = true;
             this.LengthText.Size = new System.Drawing.Size(81, 29);
@@ -130,7 +131,7 @@ namespace PasswordGenerator
             // GenButton
             // 
             this.GenButton.Font = new System.Drawing.Font("Microsoft YaHei", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.GenButton.Location = new System.Drawing.Point(197, 335);
+            this.GenButton.Location = new System.Drawing.Point(193, 368);
             this.GenButton.Name = "GenButton";
             this.GenButton.Size = new System.Drawing.Size(136, 49);
             this.GenButton.TabIndex = 10;
@@ -147,15 +148,28 @@ namespace PasswordGenerator
             this.output.Size = new System.Drawing.Size(529, 29);
             this.output.TabIndex = 11;
             // 
+            // readableCheck
+            // 
+            this.readableCheck.AutoSize = true;
+            this.readableCheck.Font = new System.Drawing.Font("Microsoft YaHei", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.readableCheck.Location = new System.Drawing.Point(181, 226);
+            this.readableCheck.Name = "readableCheck";
+            this.readableCheck.Size = new System.Drawing.Size(125, 32);
+            this.readableCheck.TabIndex = 12;
+            this.readableCheck.Text = "Readable";
+            this.readableCheck.UseVisualStyleBackColor = true;
+            this.readableCheck.CheckedChanged += new System.EventHandler(this.readableCheck_CheckedChanged);
+            // 
             // PasswordGen
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(553, 500);
+            this.Controls.Add(this.readableCheck);
             this.Controls.Add(this.output);
             this.Controls.Add(this.GenButton);
             this.Controls.Add(this.LengthText);
-            this.Controls.Add(this.label3);
+            this.Controls.Add(this.SelectorTitle);
             this.Controls.Add(this.lengthSelector);
             this.Controls.Add(this.lowerCheck);
             this.Controls.Add(this.symbolsCheck);
@@ -164,6 +178,7 @@ namespace PasswordGenerator
             this.Controls.Add(this.label1);
             this.Name = "PasswordGen";
             this.Text = "Password Generator";
+            this.Load += new System.EventHandler(this.PasswordGen_Load);
             ((System.ComponentModel.ISupportInitialize)(this.lengthSelector)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -178,10 +193,11 @@ namespace PasswordGenerator
         private System.Windows.Forms.CheckBox symbolsCheck;
         private System.Windows.Forms.CheckBox lowerCheck;
         private System.Windows.Forms.TrackBar lengthSelector;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label SelectorTitle;
         private System.Windows.Forms.TextBox LengthText;
         private System.Windows.Forms.Button GenButton;
         private System.Windows.Forms.TextBox output;
+        private System.Windows.Forms.CheckBox readableCheck;
     }
 }
 

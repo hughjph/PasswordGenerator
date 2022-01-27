@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json;
+using System.Net;
+using System.Collections.Generic;
 
 
 namespace PasswordGenerator
@@ -18,11 +14,15 @@ namespace PasswordGenerator
         bool Lower = false;
         bool Numbers = false;
         bool Symbols = false;
+        bool Readable = false;
         string UpperCaseLetters = "ABCDEFGHIJKLMNOPQRSTUVXYZ";
         string LowerCaseLetters = "abcdefghijklmnopqrstuvxyz";
         string NumberChars = "0123456789";
         string SpecialsChars = "£$&()*+[]@#^-_!?";
         Random r = new Random();
+        string WordApiLink = "https://random-word-api.herokuapp.com/word?number=";
+
+
 
         public PasswordGen()
         {
@@ -41,10 +41,20 @@ namespace PasswordGenerator
             Lower = lowerCheck.Checked;
             Numbers = numbersCheck.Checked;
             Symbols = symbolsCheck.Checked;
+            Readable = readableCheck.Checked;
 
             if(!Caps && !Lower && !Numbers && !Symbols)
             {
-                MessageBox.Show("Please Select at least one type");
+                MessageBox.Show("Please Select at least one character type");
+            }
+            else if((Numbers || Symbols) && Readable && !Lower && !Caps)
+            {
+                MessageBox.Show("You need to select a letter type for it to be readable!");
+            }
+            else if(Readable && (Lower || Caps))
+            {
+                MessageBox.Show("Readable passwords do not include numbers or symbols");
+                GenerateReadablePassword(Caps, Lower);
             }
             else
             {
@@ -52,7 +62,44 @@ namespace PasswordGenerator
             }
         }
 
+        void GenerateReadablePassword(bool Caps, bool Lower)
+        {
+            string json = new WebClient().DownloadString(WordApiLink + Length.ToString());
+            List<string> words = JsonConvert.DeserializeObject<List<string>>(json);
+            string password = "";
+            if (Caps && Lower)
+            {
+                foreach (string word in words)
+                {
+                    password += UppercaseFirst(word);
+                }
+            }else if (Caps && !Lower)
+            {
+                foreach (string word in words)
+                {
+                    password += word.ToUpper();
+                }
+            }else if (!Caps && Lower)
+            {
+                foreach (string word in words)
+                {
+                    password += word;
+                }
+            }
 
+            output.Text = password;
+        }
+
+        static string UppercaseFirst(string s)
+        {
+            if (string.IsNullOrEmpty(s))
+            {
+                return string.Empty;
+            }
+            char[] a = s.ToCharArray();
+            a[0] = char.ToUpper(a[0]);
+            return new string(a);
+        }
         void GeneratePassword(bool Caps, bool Lower, bool Numbers, bool Symbols)
         {
             int typeLength = 0;
@@ -116,6 +163,29 @@ namespace PasswordGenerator
 
             output.Text = OutputPassword;
             
+        }
+
+        private void PasswordGen_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void readableCheck_CheckedChanged(object sender, EventArgs e)
+        {
+            if (readableCheck.Checked)
+            {
+                lengthSelector.Maximum = 5;
+                lengthSelector.Minimum = 1;
+                LengthText.Text = lengthSelector.Value.ToString();
+                SelectorTitle.Text = "Word Number";
+            }
+            else
+            {
+                lengthSelector.Maximum = 30;
+                lengthSelector.Minimum = 8;
+                LengthText.Text = lengthSelector.Value.ToString();
+                SelectorTitle.Text = "Character Number";
+            }
         }
     }
 }
